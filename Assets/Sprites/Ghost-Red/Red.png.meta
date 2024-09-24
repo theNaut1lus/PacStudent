@@ -1,13 +1,19 @@
 fileFormatVersion: 2
-guid: 1e236284c3dea154c90e13a2efd6f0c9
+guid: 9d7d8e8697395b548a5390e9137a4139
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5238824122690233070
-    second: pellet-power_0
+      213: 6286595657586805340
+    second: Red_0
   - first:
-      213: 2077660519802565044
-    second: pellet-power_1
+      213: 1613127925512473047
+    second: Red_1
+  - first:
+      213: 5333967998348892124
+    second: Red_2
+  - first:
+      213: 2398322965701019735
+    second: Red_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -129,13 +135,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pellet-power_0
+      name: Red_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 9
-        width: 15
-        height: 14
+        x: 0
+        y: 32
+        width: 32
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +149,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 21d1d468735fb47b0800000000000000
-      internalID: -5238824122690233070
+      spriteID: c5a89f851797e3750800000000000000
+      internalID: 6286595657586805340
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pellet-power_1
+      name: Red_1
       rect:
         serializedVersion: 2
-        x: 40
-        y: 9
-        width: 15
-        height: 14
+        x: 32
+        y: 32
+        width: 32
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,8 +170,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4b17fae1c3555dc10800000000000000
-      internalID: 2077660519802565044
+      spriteID: 7d90f613d4bf26610800000000000000
+      internalID: 1613127925512473047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd713e842af060a40800000000000000
+      internalID: 5333967998348892124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 758454bc70e884120800000000000000
+      internalID: 2398322965701019735
       vertices: []
       indices: 
       edges: []

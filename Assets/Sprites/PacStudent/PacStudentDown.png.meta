@@ -1,13 +1,22 @@
 fileFormatVersion: 2
-guid: 1e236284c3dea154c90e13a2efd6f0c9
+guid: ac81b49e0d022544e86902f30743b0cf
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5238824122690233070
-    second: pellet-power_0
+      213: 4032975045925861532
+    second: PacStudentDown_0
   - first:
-      213: 2077660519802565044
-    second: pellet-power_1
+      213: 5454676170626011450
+    second: PacStudentDown_1
+  - first:
+      213: 4077591953196071967
+    second: PacStudentDown_2
+  - first:
+      213: 133183963942868698
+    second: PacStudentDown_3
+  - first:
+      213: 2152380146522803125
+    second: PacStudentDown_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -56,7 +65,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -129,13 +138,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pellet-power_0
+      name: PacStudentDown_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 9
-        width: 15
-        height: 14
+        x: 1
+        y: 33
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 21d1d468735fb47b0800000000000000
-      internalID: -5238824122690233070
+      spriteID: c98fc68cf6108f730800000000000000
+      internalID: 4032975045925861532
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pellet-power_1
+      name: PacStudentDown_1
       rect:
         serializedVersion: 2
-        x: 40
-        y: 9
-        width: 15
-        height: 14
+        x: 33
+        y: 33
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,8 +173,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4b17fae1c3555dc10800000000000000
-      internalID: 2077660519802565044
+      spriteID: a3193fab317e2bb40800000000000000
+      internalID: 5454676170626011450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PacStudentDown_2
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 33
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1c3e350744869830800000000000000
+      internalID: 4077591953196071967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PacStudentDown_3
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad6d79c0c1a29d100800000000000000
+      internalID: 133183963942868698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PacStudentDown_4
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 1
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bb4817e65acedd10800000000000000
+      internalID: 2152380146522803125
       vertices: []
       indices: 
       edges: []
@@ -173,14 +245,19 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 4c1816c0860a32a4a87d92375249d4f0
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      PacStudentDown_0: 4032975045925861532
+      PacStudentDown_1: 5454676170626011450
+      PacStudentDown_2: 4077591953196071967
+      PacStudentDown_3: 133183963942868698
+      PacStudentDown_4: 2152380146522803125
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

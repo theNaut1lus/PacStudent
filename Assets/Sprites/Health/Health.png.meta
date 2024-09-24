@@ -141,10 +141,10 @@ TextureImporter:
       name: Health_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 41
-        width: 30
-        height: 15
+        x: 2
+        y: 42
+        width: 28
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,10 +162,10 @@ TextureImporter:
       name: Health_1
       rect:
         serializedVersion: 2
-        x: 33
-        y: 41
-        width: 30
-        height: 15
+        x: 34
+        y: 42
+        width: 28
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,10 +183,10 @@ TextureImporter:
       name: Health_2
       rect:
         serializedVersion: 2
-        x: 65
-        y: 41
-        width: 30
-        height: 15
+        x: 66
+        y: 42
+        width: 28
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,10 +204,10 @@ TextureImporter:
       name: Health_3
       rect:
         serializedVersion: 2
-        x: 1
-        y: 9
-        width: 30
-        height: 15
+        x: 2
+        y: 10
+        width: 28
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -225,10 +225,10 @@ TextureImporter:
       name: Health_4
       rect:
         serializedVersion: 2
-        x: 33
-        y: 9
-        width: 30
-        height: 15
+        x: 34
+        y: 10
+        width: 28
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -245,7 +245,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 2a30676f1d5fb644a8e75628648e9efe
     internalID: 0
     vertices: []
     indices: 
