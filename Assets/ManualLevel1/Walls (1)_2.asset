@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: pellet-power_0
+  m_Name: Walls (1)_2
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -5238824122690233070, guid: 1e236284c3dea154c90e13a2efd6f0c9, type: 3}
+  m_Sprite: {fileID: 1107635542, guid: 22ab0502f1b006a449419fd5fc2ff994, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -31,6 +31,6 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 1
-  m_InstancedGameObject: {fileID: 7561668320754270225, guid: 08c87ab0ce0225a47abd0ae9d9efa230, type: 3}
+  m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
