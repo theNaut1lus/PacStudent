@@ -159,7 +159,21 @@ public class LevelGenerator : MonoBehaviour
                         || neighbours[3] == 4
                         || neighbours[3] == 7) 
                     {
-                        return new Vector3(0.0f, 0.0f, 270.0f);
+                        if (neighbours[1] == 5 || neighbours[1] == 0)
+                        {
+                            return new Vector3(0.0f, 0.0f, 270.0f);
+                        }
+                        else if (neighbours[3] == 3)
+                        {
+                            return new Vector3(0.0f, 0.0f, 90.0f);
+                        }
+                        if (neighbours[1] == 3)
+                        {
+                            return new Vector3(0.0f, 0.0f, 0.0f);
+                        }
+                        else {
+                            return new Vector3(0.0f, 0.0f, 270.0f);
+                        }
                     } else {
                         return new Vector3(0.0f, 0.0f, 180.0f);
                     }
