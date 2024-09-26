@@ -577,7 +577,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1194181141
 Transform:
   m_ObjectHideFlags: 0
@@ -611,13 +611,13 @@ MonoBehaviour:
   - {fileID: 2131548109}
   - {fileID: 1038864883}
   prefabs:
-  - {fileID: 3039998990845172804, guid: 3aa9149d3cf0b1140a345e8207f51efd, type: 3}
-  - {fileID: 7667616161629849107, guid: e8c023ca5ff1dde459a715e8d2ab9949, type: 3}
-  - {fileID: 5515344854920735424, guid: b18fe2385469ac54285d7d058b635801, type: 3}
-  - {fileID: 5714695300085052698, guid: a56b49c63c492f841b6f872c99ecb952, type: 3}
+  - {fileID: 1563366835733480481, guid: 3aa9149d3cf0b1140a345e8207f51efd, type: 3}
+  - {fileID: 1596269964409679579, guid: e8c023ca5ff1dde459a715e8d2ab9949, type: 3}
+  - {fileID: 5591034278682305044, guid: 77705d3c53c01f544b14920f7579f985, type: 3}
+  - {fileID: 2582713496280105055, guid: a56b49c63c492f841b6f872c99ecb952, type: 3}
   - {fileID: 4669617023905074710, guid: 524c298a3161d4f4a94f42b01e6af098, type: 3}
   - {fileID: 7561668320754270225, guid: 08c87ab0ce0225a47abd0ae9d9efa230, type: 3}
-  - {fileID: 395566355921605204, guid: cb26457c93ced7a49b7e4323f12f9043, type: 3}
+  - {fileID: 7337518451449679830, guid: cb26457c93ced7a49b7e4323f12f9043, type: 3}
 --- !u!1001 &1291358259
 PrefabInstance:
   m_ObjectHideFlags: 0
