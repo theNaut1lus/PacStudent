@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.TerrainTools;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -32,7 +33,7 @@ public class LevelGenerator : MonoBehaviour
     //Store all sprites for the level design needed in a list of Sprites
     [SerializeField]
     private List<GameObject> prefabs = new List<GameObject>();
-    private bool tOpen = false;
+    private bool tOpen = true;
     
     // Start is called before the first frame update
     //Delete the currently designed manual level in the Start function
@@ -174,7 +175,6 @@ public class LevelGenerator : MonoBehaviour
                 }
             //inside wall
             case 4:
-                float rand = Random.Range(0.0f,1.0f);
                 //must have inside corner, inside wall or t junction adjacent
                 if ((  neighbours[0] == 3
                     || neighbours[0] == 4
@@ -184,9 +184,17 @@ public class LevelGenerator : MonoBehaviour
                     || neighbours[2] == 4
                     || neighbours[2] == 7))
                 {
-                    //rotate up/down randomly for more diverse looking layout
-                    if(rand > 0.5f)
+                    if (neighbours[1] == 5 || neighbours[1] == 5)
+                    {
+                        return new Vector3(0.0f, 0.0f, 270.0f);
+                    }
+                    else if (neighbours[3] == 5 || neighbours[3] == 5)
+                    {
                         return new Vector3(0.0f, 0.0f, 90.0f);
+                    }
+                    {
+                        return new Vector3(0.0f, 0.0f, 90.0f);
+                    }
                     return new Vector3(0.0f, 0.0f, 270.0f);
                 } else if (((  neighbours[1] == 3
                             || neighbours[1] == 4
@@ -208,16 +216,30 @@ public class LevelGenerator : MonoBehaviour
                         || neighbours[3] == 4
                         || neighbours[3] == 7)))
                 {
-                    //rotate left/right randomly for more diverse looking layout
-                    if(rand > 0.5f)
+                    if (neighbours[0] == 5 || neighbours[0] == 0)
+                    {
                         return new Vector3(0.0f, 0.0f, 0.0f);
-                    return new Vector3(0.0f, 0.0f, 180.0f);
+                    }
+                    else if (neighbours[2] == 5 || neighbours[2] == 0)
+                    {
+                        return new Vector3(0.0f, 0.0f, 180.0f);
+                    }
+
+                    return new Vector3(0.0f, 0.0f, 0.0f);
                 } else 
                 {
-                    //rotate up/down randomly for more diverse looking layout
-                    if(rand > 0.5f)
+                    if (neighbours[1] == 5 || neighbours[1] == 0)
+                    {
+                        return new Vector3(0.0f, 0.0f, 270.0f);
+                    }
+                    else if (neighbours[3] == 5 || neighbours[3] == 0)
+                    {
                         return new Vector3(0.0f, 0.0f, 90.0f);
-                    return new Vector3(0.0f, 0.0f, 270.0f);
+                    }
+                    {
+                        return new Vector3(0.0f, 0.0f, 90.0f);
+                    }
+                    return new Vector3(0.0f, 0.0f, 90.0f);
                 }
             //t junction
             case 7:
@@ -235,22 +257,22 @@ public class LevelGenerator : MonoBehaviour
                     {
                         if (tOpen) {
                             tOpen = false;
-                            //return new Vector3(0.0f, 0.0f, 180.0f);
-                            return new Vector3(180.0f, 0.0f, 0.0f);
+                            return new Vector3(0.0f, 0.0f, 180.0f);
+                            //return new Vector3(180.0f, 0.0f, 0.0f);
                         } else {
                             tOpen = true;
-                            //return new Vector3(180.0f, 0.0f, 0.0f);
-                            return new Vector3(0.0f, 0.0f, 180.0f);
+                            return new Vector3(180.0f, 0.0f, 0.0f);
+                            //return new Vector3(0.0f, 0.0f, 180.0f);
                         }
                     } else {
                         if (tOpen) {
                             tOpen = false;
-                            //return new Vector3(0.0f, 180.0f, 0.0f);
-                            return new Vector3(0.0f, 0.0f, 0.0f);
+                            return new Vector3(0.0f, 180.0f, 0.0f);
+                            //return new Vector3(0.0f, 0.0f, 0.0f);
                         } else {
                             tOpen = true;
-                            //return new Vector3(0.0f, 0.0f, 0.0f);
-                            return new Vector3(0.0f, 180.0f, 0.0f);
+                            return new Vector3(0.0f, 0.0f, 0.0f);
+                            //return new Vector3(0.0f, 180.0f, 0.0f);
                         }
                     }
                 } else if ((   neighbours[1] == 1
@@ -267,26 +289,26 @@ public class LevelGenerator : MonoBehaviour
                     {
                         if (tOpen) {
                             tOpen = false;
-                            //return new Vector3(180.0f, 0.0f, 270.0f);
-                            return new Vector3(0.0f, 0.0f, 270.0f);
+                            return new Vector3(180.0f, 0.0f, 270.0f);
+                            //return new Vector3(0.0f, 0.0f, 270.0f);
                         } else {
                             tOpen = true;
-                            //return new Vector3(0.0f, 0.0f, 270.0f);
-                            return new Vector3(180.0f, 0.0f, 270.0f);
+                            return new Vector3(0.0f, 0.0f, 270.0f);
+                            //return new Vector3(180.0f, 0.0f, 270.0f);
                         }
                     } else {
                         if (tOpen) {
                             tOpen = false;
-                            //return new Vector3(0.0f, 0.0f, 90.0f);
-                            return new Vector3(180.0f, 0.0f, 90.0f);
+                            return new Vector3(0.0f, 0.0f, 90.0f);
+                            //return new Vector3(180.0f, 0.0f, 90.0f);
                         } else {
                             tOpen = true;
-                            //return new Vector3(180.0f, 0.0f, 90.0f);
-                            return new Vector3(0.0f, 0.0f, 90.0f);
+                            return new Vector3(180.0f, 0.0f, 90.0f);
+                            //return new Vector3(0.0f, 0.0f, 90.0f);
                         }
                     }
                 } else {
-                    return new Vector3(0.0f, 180.0f, 0.0f);
+                    return new Vector3(0.0f, 0.0f, 0.0f);
                 }
             //no rotation needed for pellets and empty tiles
             default:
