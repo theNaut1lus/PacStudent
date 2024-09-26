@@ -31,13 +31,296 @@ public class LevelGenerator : MonoBehaviour
     
     //Store all sprites for the level design needed in a list of Sprites
     [SerializeField]
-    private List<Sprite> sprites = new List<Sprite>();
+    private List<GameObject> prefabs = new List<GameObject>();
+    private bool tOpen = false;
     
     // Start is called before the first frame update
     //Delete the currently designed manual level in the Start function
     void Start()
     {
         DeleteCurrentLevel();
+        GenerateLevel();
+    }
+    
+    //Function to generate the level using the levelMap array
+    public void GenerateLevel()
+    {
+        Debug.Log("generating level");
+        //loop through each quadrant and generate the level using the levelMap array
+        for (int i = 0; i < quadrants.Length; i++) {
+            BoundsInt bounds = quadrants[i].cellBounds;
+            TileBase[] allTiles = quadrants[i].GetTilesBlock(bounds);
+            //loop through each row of the levelMap array
+            for (int y = 0; y < levelMap.GetLength(0); y++) {
+                //loop through each column of the levelMap array
+                //if the current quadrant is the bottom right or bottom left, we need to skip the last row of the levelMap array.
+                if ((i == 2 || i == 3) && y == levelMap.GetLength(0) - 1) {
+                    continue;
+                }
+                for (int x = 0; x < levelMap.GetLength(1); x++) {
+                    //check if the current value in the levelMap array is not 0
+                    if (levelMap[y, x] != 0) {
+                        //create a new Vector3Int with the x and y values as the position, if the current quadrant is the bottom right or bottom left, we need to bump down the y value by 1 as we are skipping the last row.
+                        Vector3Int position = new Vector3Int((-15)+x, 1-y, 0);
+                        if (i ==2 || i == 3) {
+                            position = new Vector3Int((-15)+x, 1-y-1, 0);
+                        }
+                        //create a new Tile with the sprite from the sprites list based on the current value in the levelMap array
+                        Tile tile = ScriptableObject.CreateInstance<Tile>();
+                        tile.sprite = prefabs[levelMap[y, x] - 1].GetComponent<SpriteRenderer>().sprite;
+                        Vector3 tileRotation = TileRotation(levelMap[y, x], x, y);
+                        //Debug.Log($"Tile {tile.sprite} rotation: {tileRotation}");
+                        tile.transform = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(tileRotation), new Vector3(1, 1, 1));
+                        //set the tile at the position in the current quadrant
+                        quadrants[i].SetTile(position, tile);
+                    }
+                    else {
+                        //if the current value in the levelMap array is 0, set the tile at the position in the current quadrant to null
+                        quadrants[i].SetTile(new Vector3Int(x, y, 0), null);
+                    }
+                }
+            }
+        }
+    }
+    
+    //Function to rotate the tile based on the neighbours, all we need is the tile's number on the map, and it's x,y position in the input map
+    Vector3 TileRotation(int tileNumber, int x, int y)
+    {
+        //if the tile is a start tile, that is outer corner at 0,0, no rotation needed.
+        if (x == 0 && y == 0) {
+            return new Vector3(0, 0, 0);
+        }
+        
+        //We will need tileNumbers fpr all 4 neighbours of the tile to determine the rotation, top, bottom, left and right.
+        //0:left; 1:top; 2:right; 3:bottom
+        int[] neighbours = GetNeighbours(x, y);
+        
+        switch (tileNumber) {
+            //outside corner
+            case 1:
+                //must have outside corner, outside wall or t junction adjacent
+                if (   neighbours[0] == 1
+                    || neighbours[0] == 2
+                    || neighbours[0] == 7) 
+                {
+                    if (   neighbours[3] == 1
+                        || neighbours[3] == 2
+                        || neighbours[3] == 7)
+                    {
+                        return new Vector3(0.0f, 0.0f, 270.0f);
+                    } else {
+                        return new Vector3(0.0f, 0.0f, 180.0f);
+                    }
+                } else {
+                    if (   neighbours[3] == 1
+                        || neighbours[3] == 2
+                        || neighbours[3] == 7)
+                    {
+                        return new Vector3(0.0f, 0.0f, 0.0f);
+                    } else {
+                        return new Vector3(0.0f, 0.0f, 90.0f);
+                    }
+                }
+            //outside wall
+            case 2:
+                //must have outside corner, outside wall or t junction adjacent
+                if ((  neighbours[0] == 1
+                    || neighbours[0] == 2
+                    || neighbours[0] == 7)
+                    &&
+                    (  neighbours[2] == 1
+                    || neighbours[2] == 2
+                    || neighbours[2] == 7))
+                {
+                    return new Vector3(0.0f, 0.0f, 90.0f);
+                } else if ((   neighbours[1] == 1
+                            || neighbours[1] == 2
+                            || neighbours[1] == 7
+                            || neighbours[1] == -1)
+                        &&
+                        (  neighbours[3] == 1
+                        || neighbours[3] == 2
+                        || neighbours[3] == 7
+                        || neighbours[3] == -1))
+                {
+                    return new Vector3(0.0f, 0.0f, 0.0f);
+                } else {
+                    return new Vector3(0.0f, 0.0f, 90.0f);
+                }
+            //inside corner
+            case 3:
+                //must have inside corner, inside wall or t junction adjacent
+                if (   neighbours[0] == 3
+                    || neighbours[0] == 4
+                    || neighbours[0] == 7) 
+                {
+                    if (   neighbours[3] == 3
+                        || neighbours[3] == 4
+                        || neighbours[3] == 7) 
+                    {
+                        return new Vector3(0.0f, 0.0f, 270.0f);
+                    } else {
+                        return new Vector3(0.0f, 0.0f, 180.0f);
+                    }
+                } else {
+                    if (   neighbours[3] == 3
+                        || neighbours[3] == 4
+                        || neighbours[3] == 7) 
+                    {
+                        return new Vector3(0.0f, 0.0f, 0.0f);
+                    } else {
+                        return new Vector3(0.0f, 0.0f, 90.0f);
+                    }
+                }
+            //inside wall
+            case 4:
+                float rand = Random.Range(0.0f,1.0f);
+                //must have inside corner, inside wall or t junction adjacent
+                if ((  neighbours[0] == 3
+                    || neighbours[0] == 4
+                    || neighbours[0] == 7)
+                    && 
+                    (  neighbours[2] == 3
+                    || neighbours[2] == 4
+                    || neighbours[2] == 7))
+                {
+                    //rotate up/down randomly for more diverse looking layout
+                    if(rand > 0.5f)
+                        return new Vector3(0.0f, 0.0f, 90.0f);
+                    return new Vector3(0.0f, 0.0f, 270.0f);
+                } else if (((  neighbours[1] == 3
+                            || neighbours[1] == 4
+                            || neighbours[1] == 7)
+                            &&
+                        (  neighbours[3] == 3
+                        || neighbours[3] == 4
+                        || neighbours[3] == 7
+                        || neighbours[3] == 0
+                        || neighbours[3] == -1))
+                        ||
+                        (( neighbours[1] == 3
+                        || neighbours[1] == 4
+                        || neighbours[1] == 7
+                        || neighbours[3] == 0
+                        || neighbours[3] == -1)
+                        &&
+                        (  neighbours[3] == 3
+                        || neighbours[3] == 4
+                        || neighbours[3] == 7)))
+                {
+                    //rotate left/right randomly for more diverse looking layout
+                    if(rand > 0.5f)
+                        return new Vector3(0.0f, 0.0f, 0.0f);
+                    return new Vector3(0.0f, 0.0f, 180.0f);
+                } else 
+                {
+                    //rotate up/down randomly for more diverse looking layout
+                    if(rand > 0.5f)
+                        return new Vector3(0.0f, 0.0f, 90.0f);
+                    return new Vector3(0.0f, 0.0f, 270.0f);
+                }
+            //t junction
+            case 7:
+                if ((  neighbours[0] == 1
+                    || neighbours[0] == 2
+                    || neighbours[0] == 7)
+                    &&
+                    (  neighbours[2] == 1
+                    || neighbours[2] == 2
+                    || neighbours[2] == 7))
+                {
+                    if (   neighbours[1] == 3
+                        || neighbours[1] == 4
+                        || neighbours[1] == 7)
+                    {
+                        if (tOpen) {
+                            tOpen = false;
+                            //return new Vector3(0.0f, 0.0f, 180.0f);
+                            return new Vector3(180.0f, 0.0f, 0.0f);
+                        } else {
+                            tOpen = true;
+                            //return new Vector3(180.0f, 0.0f, 0.0f);
+                            return new Vector3(0.0f, 0.0f, 180.0f);
+                        }
+                    } else {
+                        if (tOpen) {
+                            tOpen = false;
+                            //return new Vector3(0.0f, 180.0f, 0.0f);
+                            return new Vector3(0.0f, 0.0f, 0.0f);
+                        } else {
+                            tOpen = true;
+                            //return new Vector3(0.0f, 0.0f, 0.0f);
+                            return new Vector3(0.0f, 180.0f, 0.0f);
+                        }
+                    }
+                } else if ((   neighbours[1] == 1
+                            || neighbours[1] == 2
+                            || neighbours[1] == 7)
+                            &&
+                            (  neighbours[3] == 1
+                            || neighbours[3] == 2
+                            || neighbours[3] == 7))
+                {
+                    if (   neighbours[0] == 3
+                        || neighbours[0] == 4
+                        || neighbours[0] == 7)
+                    {
+                        if (tOpen) {
+                            tOpen = false;
+                            //return new Vector3(180.0f, 0.0f, 270.0f);
+                            return new Vector3(0.0f, 0.0f, 270.0f);
+                        } else {
+                            tOpen = true;
+                            //return new Vector3(0.0f, 0.0f, 270.0f);
+                            return new Vector3(180.0f, 0.0f, 270.0f);
+                        }
+                    } else {
+                        if (tOpen) {
+                            tOpen = false;
+                            //return new Vector3(0.0f, 0.0f, 90.0f);
+                            return new Vector3(180.0f, 0.0f, 90.0f);
+                        } else {
+                            tOpen = true;
+                            //return new Vector3(180.0f, 0.0f, 90.0f);
+                            return new Vector3(0.0f, 0.0f, 90.0f);
+                        }
+                    }
+                } else {
+                    return new Vector3(0.0f, 180.0f, 0.0f);
+                }
+            //no rotation needed for pellets and empty tiles
+            default:
+                return new Vector3(0.0f, 0.0f, 0.0f);
+        }
+    }
+    
+    int[] GetNeighbours(int x, int y)
+    {
+        //0:left; 1:top; 2:right; 3:bottom
+        //initialize the neighbours array with -1, which means no tile at that position.
+        int[] neighbours = {-1, -1, -1, -1};
+        //check if the current position is not at the top edge of the map
+        if (y > 0) {
+            //if there is a tile at the top, set the top neighbour to the value of the tile
+            neighbours[1] = levelMap[y - 1, x];
+        }
+        //check if the current position is not at the bottom edge of the map
+        if (y < levelMap.GetLength(0) - 1) {
+            //if there is a tile at the bottom, set the bottom neighbour to the value of the tile
+            neighbours[3] = levelMap[y + 1, x];
+        }
+        //check if the current position is not at the left edge of the map
+        if (x > 0) {
+            //if there is a tile at the left, set the left neighbour to the value of the tile
+            neighbours[0] = levelMap[y, x - 1];
+        }
+        //check if the current position is not at the right edge of the map
+        if (x < levelMap.GetLength(1) - 1) {
+            //if there is a tile at the right, set the right neighbour to the value of the tile
+            neighbours[2] = levelMap[y, x + 1];
+        }
+        //return the neighbours array
+        return neighbours;
     }
 
     //Best to have a separate function to delete a level, so that it can be re-used if needed.
@@ -46,11 +329,11 @@ public class LevelGenerator : MonoBehaviour
         Debug.Log("deleting current level");
         //loop through each quadrant and destroy all child gameobjects.
         for (int i = 0; i < quadrants.Length; i++) {
-            Debug.Log($"Destructing quadrant {quadrants[i].name}");
+            //Debug.Log($"Destructing quadrant {quadrants[i].name}");
+            //helps in shrinking the bounds of the tilemap to the minimum required size.
+            quadrants[i].CompressBounds();
+            //clear all tiles in the tilemap
             quadrants[i].ClearAllTiles();
-            
-            //BoundsInt bounds = Quadrants[i].cellBounds;
-            //TileBase[] allTiles = Quadrants[i].GetTilesBlock(bounds);
         }
     }
 
