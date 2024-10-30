@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: Pink_0
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -7381184880430962403, guid: 6862a0c71098108408a9db0ec1c8e37d, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -31,6 +31,6 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 1
-  m_InstancedGameObject: {fileID: 0}
+  m_InstancedGameObject: {fileID: 7219246966109472334, guid: 138d4184a43e84740ab36430baece110, type: 3}
   m_Flags: 1
   m_ColliderType: 1

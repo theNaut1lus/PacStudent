@@ -20,10 +20,10 @@ public class UIManager : MonoBehaviour
     public void LoadFirstLevel()
     {
         // Make sure the UIManager is not destroyed when loading a new scene
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         
-        //check if game scene exists, if yes then load it
-        if (SceneManager.sceneCountInBuildSettings.Equals(2))
+        //check if game scene exists and current scene is start scene , if yes then load it
+        if (SceneManager.sceneCountInBuildSettings.Equals(2) && SceneManager.GetActiveScene().buildIndex.Equals(0))
         {
             SceneManager.LoadScene(1);
         }
@@ -34,4 +34,19 @@ public class UIManager : MonoBehaviour
         }
         
     }
+    
+    public void ExitToStartLevel()
+    {
+        //check if start scene exists and current scene is game scene , if yes then load it
+        if (SceneManager.sceneCountInBuildSettings.Equals(2) && SceneManager.GetActiveScene().buildIndex.Equals(1))
+        {
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            //if not, load the first scene
+            Debug.Log("StartScene not found");
+        }
+    }
+            
 }
