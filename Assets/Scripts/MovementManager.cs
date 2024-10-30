@@ -14,10 +14,10 @@ public class MovementManager : MonoBehaviour
     
     //fixed positions and animation states for pacStudent, each starting position will have a corresponding animation state
     private Vector3[] pacStudentPositions = {
-        new Vector3(-20.5f, 6.0f, 0.0f),
         new Vector3(-15.5f, 6.0f, 0.0f),
-        new Vector3(-15.5f, 2.0f, 0.0f),
-        new Vector3(-20.5f, 2.0f, 0.0f)
+        new Vector3(-10.5f, 6.0f, 0.0f),
+        new Vector3(-10.5f, 2.0f, 0.0f),
+        new Vector3(-15.5f, 2.0f, 0.0f)
     };
     private string[] pacStudentStates = {
         "PacStudentLeft",
