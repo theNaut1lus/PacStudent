@@ -36,6 +36,9 @@ public class StartSceneManager : MonoBehaviour
         return string.Format("{0:D2}:{1:D2}:{2:D2}", mins, seconds, ms);
     }
     
+    public void StartGame() {
+        SceneManager.LoadScene("GameScene");
+    }
     
     // Start is called before the first frame update
     void Start()
