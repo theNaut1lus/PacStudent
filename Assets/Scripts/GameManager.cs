@@ -24,11 +24,9 @@ public class GameManager : MonoBehaviour
     {
         //get all the managers and init them
         movementManager.Init(this);
-        
-        //[TODO]: create respective init functions for the other managers and levelgenerator
-        //audioManager.Init(this);
-        //uiManager.Init(this);
-        //levelGenerator.Init(this);
+        audioManager.Init(this);
+        uiManager.Init(this);
+        levelGenerator.Init(this);
     }
 
     // Start is called before the first frame update
@@ -44,37 +42,37 @@ public class GameManager : MonoBehaviour
     }
     
     IEnumerator StartGame() {
-        lives = 3;
-        //uIManager.Reset();
+        lives = 4;
+        uiManager.Reset();
         movementManager.pacStudentController.MoveToStart();
-        //audioManager.PlayStartMusic();
+        audioManager.PlayStartMusic();
         yield return null;
-        //audioManager.PlayNormalMusic();
-        //uIManager.StartTimer();
+        audioManager.PlayNormalMusic();
+        uiManager.StartTimer();
         Play();
     }
     
     public void AddScore(int x) {
         score += x;
-        //uIManager.SetScore(score);
+        uiManager.SetScore(score);
     }
     
     public void Play() {
         isGameStarted = true;
         isPaused = false;
-        //movementManager.cherryController.StartCherrySpawn();
+        movementManager.cherryController.StartCherrySpawn();
     }
     
     public void Pause() {
         isPaused = true;
-        //movementManager.cherryController.StopCherrySpawn();
+        movementManager.cherryController.StopCherrySpawn();
     }
     
     public void GameOver() {
         Pause();
         movementManager.pacStudentController.pacStudentAnimator.enabled = false;
         SaveHighScore();
-        //uIManager.ShowGameOver();
+        uiManager.ShowGameOver();
         Invoke("ShowStartScene", 3);
     }
     
@@ -82,16 +80,16 @@ public class GameManager : MonoBehaviour
         int currentHighScore = PlayerPrefs.GetInt("highscore", 0);
         float currentTime = PlayerPrefs.GetFloat("highscoreTime", 0.0f);
 
-        //[TODO]: Save game logic
-        /*if(score > currentHighScore) {
+
+        if(score > currentHighScore) {
             PlayerPrefs.SetInt("highscore", score);
-            //PlayerPrefs.SetFloat("highscoreTime", uIManager.GetTimePlayed());
+            PlayerPrefs.SetFloat("highscoreTime", uiManager.GetTimePlayed());
         } else if(score == currentHighScore) {
-            if(currentTime > uIManager.GetTimePlayed()) {
+            if(currentTime > uiManager.GetTimePlayed()) {
                 PlayerPrefs.SetInt("highscore", score);
-                //PlayerPrefs.SetFloat("highscoreTime", uIManager.GetTimePlayed());
+                PlayerPrefs.SetFloat("highscoreTime", uiManager.GetTimePlayed());
             }
-        }*/
+        }
     }
 
     public void ShowStartScene() {

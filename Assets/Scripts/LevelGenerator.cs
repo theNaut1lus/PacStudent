@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.TerrainTools;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class LevelGenerator : MonoBehaviour
 {
+    //game manager
+    private GameManager gameManager;
+    
     //place the 2d level map for the initial build
     int[,] levelMap =
     {
@@ -26,6 +30,13 @@ public class LevelGenerator : MonoBehaviour
         {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
     };
     
+    //level map but with all 4 quadrants
+    private int[,] completeLvlMap;
+    
+    //width and height of the complete level map
+    public int width;
+    public int height;
+    
     //4 quadrants of the level, each built using a tilemap, so storing their respective gameobjects
     [SerializeField]
     private Tilemap[] quadrants = new Tilemap[4];
@@ -35,12 +46,38 @@ public class LevelGenerator : MonoBehaviour
     private List<GameObject> prefabs = new List<GameObject>();
     private bool tOpen = true;
     
+    //initialise the LevelGenerator
+    public void Init(GameManager gameManager)
+    {
+        this.gameManager = gameManager;
+    }
+    
     // Start is called before the first frame update
     //Delete the currently designed manual level in the Start function
     void Start()
     {
+        CompletelvlMap();
+        width = completeLvlMap.GetLength(1);
+        height = completeLvlMap.GetLength(0);
         DeleteCurrentLevel();
         GenerateLevel();
+        
+    }
+
+    void CompletelvlMap()
+    {
+        completeLvlMap = new int[levelMap.GetLength(0)*2-1,levelMap.GetLength(1)*2];
+        for (int i = 0; i < completeLvlMap.GetLength(0); i++) {
+            for (int j = 0; j < completeLvlMap.GetLength(1); j++) {
+                int x = i;
+                int y = j;
+                if(i >= levelMap.GetLength(0))
+                    x = 2*levelMap.GetLength(0)-i-2;
+                if(j >= levelMap.GetLength(1))
+                    y = 2*levelMap.GetLength(1)-j-1;
+                completeLvlMap[i,j] = levelMap[x,y];
+            }
+        }
     }
     
     //Function to generate the level using the levelMap array
@@ -66,9 +103,10 @@ public class LevelGenerator : MonoBehaviour
                         if (i ==2 || i == 3) {
                             position = new Vector3Int((-15)+x, 1-y-1, 0);
                         }
-                        //create a new Tile with the sprite from the sprites list based on the current value in the levelMap array
-                        Tile tile = ScriptableObject.CreateInstance<Tile>();
-                        tile.sprite = prefabs[levelMap[y, x] - 1].GetComponent<SpriteRenderer>().sprite;
+                        //get tile based on the value in the levelMap array from the CreateTile function
+                        Tile tile = CreateTile(levelMap[y, x] - 1);
+                        
+                        //get the rotation of the tile based on the neighbours
                         Vector3 tileRotation = TileRotation(levelMap[y, x], x, y);
                         //Debug.Log($"Tile {tile.sprite} rotation: {tileRotation}");
                         tile.transform = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(tileRotation), new Vector3(1, 1, 1));
@@ -82,6 +120,37 @@ public class LevelGenerator : MonoBehaviour
                 }
             }
         }
+    }
+    
+    //instead of just sprite, we need to now instantiate the gameobject and get the sprite from it.
+    Tile CreateTile(int prefabIndex)
+    {
+        Tile tile = ScriptableObject.CreateInstance<Tile>();
+        
+        //based on the prefabIndex, we need to initialize more components of the tile, like the collider, etc.
+        
+        //set the sprite of the tile based on the prefabIndex, same as before.
+        if (prefabIndex > 0)
+        {
+            tile.sprite = prefabs[prefabIndex].GetComponent<SpriteRenderer>().sprite;
+        }
+        
+        if(prefabIndex == 5)
+        {
+            CircleCollider2D cl = tile.AddComponent<CircleCollider2D>();
+            cl.isTrigger = true;
+            cl.radius = 0.2f;
+            //tile.tag = "Pellet";
+        }
+
+        if (prefabIndex == 6)
+        {
+            CircleCollider2D cl =  tile.AddComponent<CircleCollider2D>();
+            cl.isTrigger = true;
+            cl.radius = 0.2f;
+            //tile.tag = "PowerPellet";
+        }
+        return tile;
     }
     
     //Function to rotate the tile based on the neighbours, all we need is the tile's number on the map, and it's x,y position in the input map

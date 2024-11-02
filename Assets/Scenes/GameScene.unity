@@ -239,6 +239,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fbe2fc15b3dc1a4da9f9ff82e0f4f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: {fileID: 0}
+  healthSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  health: {fileID: 0}
+  timer: {fileID: 0}
+  ghostTimer: {fileID: 0}
+  countDown: {fileID: 0}
+  gameOver: {fileID: 0}
 --- !u!4 &186661284
 Transform:
   m_ObjectHideFlags: 0
@@ -6250,6 +6261,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startMusic: {fileID: 1295025438}
   gameMusic: {fileID: 1040753278}
+  deadMusic: {fileID: 0}
+  scaredMusic: {fileID: 0}
+  cherryClip: {fileID: 0}
+  collideClip: {fileID: 0}
+  dieClip: {fileID: 0}
+  moveClip: {fileID: 0}
 --- !u!114 &548264684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6262,7 +6279,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77136fbbf0a67be4ab74b18efc17a66c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pacStudent: {fileID: 1636477777}
+  gameManager: {fileID: 0}
+  pacStudentController: {fileID: 0}
+  cherryController: {fileID: 0}
+  ghostController: {fileID: 0}
 --- !u!114 &548264686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7327,6 +7347,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77929035dd199594b8dfe946f226530d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
   quadrants:
   - {fileID: 1983781739}
   - {fileID: 1707604740}
@@ -10600,11 +10622,6 @@ RectTransform:
   m_AnchoredPosition: {x: -10.208984, y: -59.68}
   m_SizeDelta: {x: 83.546, y: 41.091}
   m_Pivot: {x: 1, y: 0.5}
---- !u!1 &1636477777 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 837965835665244399, guid: 8e2ab7d0c46ee4f40b8e83072f221344, type: 3}
-  m_PrefabInstance: {fileID: 1291358259}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1839735485 &1707604740 stripped
 Tilemap:
   m_CorrespondingSourceObject: {fileID: 8823231622122865966, guid: 355b29ff95e279f4b9bab5ceb054ffe2, type: 3}
