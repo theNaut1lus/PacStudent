@@ -330,7 +330,7 @@ public class LevelGenerator : MonoBehaviour
         }
     }
     
-    int[] GetNeighbours(int x, int y)
+    public int[] GetNeighbours(int x, int y)
     {
         //0:left; 1:top; 2:right; 3:bottom
         //initialize the neighbours array with -1, which means no tile at that position.
