@@ -179,8 +179,8 @@ public class PacStudentController : MonoBehaviour
         tweener.RemoveTween(transform);
         pacStudentAnimator.Play("Death");
         movementManager.gameManager.audioManager.PlayDieSound();
-        movementManager.gameManager.uIManager.LoseLife();
-        if(movementManager.gameManager.lifes > 0) {
+        movementManager.gameManager.uiManager.LoseLife();
+        if(movementManager.gameManager.lives > 0) {
             Invoke(nameof(MoveToStart), 1.0f);
         } else {
             movementManager.gameManager.GameOver();
