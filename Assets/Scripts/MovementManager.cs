@@ -10,7 +10,6 @@ public class MovementManager : MonoBehaviour
     //mopvement of pacstudent now handled by dedicated controller
     public PacStudentController pacStudentController;
     
-    //TODO: Implement the CherryController and GhostController
     public CherryController cherryController;
     public GhostController ghostController;
     

@@ -49,16 +49,18 @@ public class CherryController : MonoBehaviour
     
     IEnumerator SpawnCherry() {
         Vector3 randomLocation = new Vector3(Random.Range(-16.5f,10.5f), 7.0f, 0.0f);
-        Debug.Log($"Cherry spawned at {randomLocation}");
         GameObject newCherry = Instantiate(cherryPrefab, randomLocation, Quaternion.identity);
         newCherry.tag = "cherry";
         CircleCollider2D cl = newCherry.AddComponent<CircleCollider2D>();
         cl.isTrigger = true;
         MoveCherryIn(newCherry);
         yield return new WaitUntil(() => newCherry == null || !tweener.TweenExists(newCherry.transform));
-        MoveCherryOut(newCherry, randomLocation);
-        yield return new WaitUntil(() => newCherry == null || !tweener.TweenExists(newCherry.transform));
-        Destroy(newCherry);
+        if (newCherry)
+        {
+            MoveCherryOut(newCherry, randomLocation);
+            yield return new WaitUntil(() => newCherry == null || !tweener.TweenExists(newCherry.transform));
+            Destroy(newCherry);
+        }
     }
     
     //move the cherry in from the top to hit center of screen

@@ -884,6 +884,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   highscore: {fileID: 669691931}
   highscoreTime: {fileID: 1739983249}
+  level1Button: {fileID: 1649564080}
 --- !u!4 &404051209
 Transform:
   m_ObjectHideFlags: 0
@@ -2043,19 +2044,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1649564081}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 404051208}
-        m_TargetAssemblyTypeName: StartSceneManager, Assembly-CSharp
-        m_MethodName: StartGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1649564081
 MonoBehaviour:
   m_ObjectHideFlags: 0

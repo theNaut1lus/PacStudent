@@ -175,10 +175,10 @@ public class PacStudentController : MonoBehaviour
             Eat(other.gameObject);
             movementManager.ghostController.Scared();
         } else if(tag == "ghost") {
-            if(movementManager.ghostController.scared) {
+            if(movementManager.ghostController.CanDie(other.gameObject)) {
                 movementManager.ghostController.Die(other.gameObject);
                 AddScore(300);
-            } else {
+            } else if(movementManager.ghostController.GetState(other.gameObject) != GhostController.GhostState.Dead) {
                 Die();
             }
         }
