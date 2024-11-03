@@ -46,6 +46,15 @@ public class Tweener : MonoBehaviour
         }
         return false;
     }
+    
+    //New: Remove all tweens of the target object from the List.
+    public bool RemoveTween(Transform targetObject) {
+        if (TweenExists(targetObject)) {
+            activeTweens.RemoveAll(item => item.Target == targetObject);
+            return true;
+        }
+        return false;
+    }
 
     public bool TweenExists (Transform target) {
         //loop through each active tween in the List and check if the target object is the same as the tween's target object.
@@ -54,5 +63,10 @@ public class Tweener : MonoBehaviour
                 return true;
         }
         return false;
+    }
+    
+    public bool isTweening(Transform target) {
+        //return true of activeTweens list has any tween running.
+        return activeTweens.Count > 0;
     }
 }

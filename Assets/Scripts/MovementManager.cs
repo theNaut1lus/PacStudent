@@ -4,54 +4,57 @@ using UnityEngine;
 
 public class MovementManager : MonoBehaviour
 {
-    //get the pacStudent GameObject from the MovementManager GameObject this script will be attached to
-    [SerializeField]
-    public GameObject pacStudent;
+
+    public GameManager gameManager;
     
-    //private variables for the Tweener and Animator components
-    private Tweener tweener;
-    private Animator animator;
+    //mopvement of pacstudent now handled by dedicated controller
+    public PacStudentController pacStudentController;
     
-    //fixed positions and animation states for pacStudent, each starting position will have a corresponding animation state
-    private Vector3[] pacStudentPositions = {
-        new Vector3(-20.5f, 6.0f, 0.0f),
-        new Vector3(-15.5f, 6.0f, 0.0f),
-        new Vector3(-15.5f, 2.0f, 0.0f),
-        new Vector3(-20.5f, 2.0f, 0.0f)
-    };
-    private string[] pacStudentStates = {
-        "PacStudentLeft",
-        "Down",
-        "Right",
-        "Up"
-    };
+    public CherryController cherryController;
+    public GhostController ghostController;
     
     //speed of pacStudent's LERP movement
     private int speed = 2;
+    
+    //initialise the MovementManager
+    public void Init(GameManager gameManager)
+    {
+        this.gameManager = gameManager;
+        pacStudentController.Init(this);
+        cherryController.Init(this);
+        ghostController.Init(this);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        //Get the Tweener component and animator with animation states of pacStudent from the GameObject
-        tweener = GetComponent<Tweener>();
-        animator = pacStudent.GetComponent<Animator>();
-
-        //Reset the pacStudent to start position
-        pacStudent.transform.position = pacStudentPositions[0];
+        pacStudentController = GameObject.FindGameObjectWithTag("PacStudent").GetComponent<PacStudentController>();
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        //for each fixed cardinal position on first quadrant, if pacStudent's position , start move to the next position and play the corresponding animation state
-        for (int i = 0; i < pacStudentPositions.Length; i++) {
-            if(pacStudent.transform.position == pacStudentPositions[i]) {
-                float duration = Vector3.Distance(pacStudentPositions[i], pacStudentPositions[(i+1)%4]) / speed;
-                tweener.AddTween(pacStudent.transform, pacStudentPositions[i], pacStudentPositions[(i+1)%4], duration);
-                animator.Play(pacStudentStates[i]);
-            }
-        }
+        //Update now does nothing, as movement is handled by the dedicated controllers
+    }
+    
+    public int GetNextTile(Vector3 position, Vector3 direction) {
+        //0:left; 1:top; 2:right; 3:bottom
+        int[] neighbors = gameManager.levelGenerator.GetNeighbours((int)position.x, -(int)position.y);
+        if(direction.x == -1)
+            return neighbors[0];
+        else if(direction.x == 1)
+            return neighbors[2];
+        else if(direction.y == -1)
+            return neighbors[3];
+        else
+            return neighbors[1];
+    }
+    
+    public bool IsWalkable(int tileNumber) {
+        if(tileNumber is 0 or 5 or 6 or -1)
+            return true;
+        return false;
     }
 
 }
