@@ -47,8 +47,8 @@ public class GhostController : MonoBehaviour
         foreach(GameObject ghost in ghostPrefabs) {
             Animator animator = ghost.GetComponent<Animator>();
             //get the color of the ghost from the ghost's name
-            string color = ghost.name.Split('-')[1];
-            animator.Play("Ghost-" + color);
+            string color = ghost.name;
+            animator.Play("Ghost-Right");
         }
         movementManager.gameManager.audioManager.PlayNormalMusic();
         movementManager.gameManager.uiManager.DisableGhostTimer();

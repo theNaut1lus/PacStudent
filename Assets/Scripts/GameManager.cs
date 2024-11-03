@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Start Game");
         StartCoroutine(StartGame());
     }
 
@@ -43,7 +42,6 @@ public class GameManager : MonoBehaviour
     }
     
     IEnumerator StartGame() {
-        Debug.Log("Start Game Coroutine");
         lives = 4;
         uiManager.Reset();
         movementManager.pacStudentController.MoveToStart();
@@ -60,7 +58,6 @@ public class GameManager : MonoBehaviour
     }
     
     public void Play() {
-        Debug.Log("Play Game");
         isGameStarted = true;
         isPaused = false;
         movementManager.cherryController.StartCherrySpawn();

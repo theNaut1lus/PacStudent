@@ -58,7 +58,6 @@ public class PacStudentController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log($"pacstudent position {transform.position}");
         tweener = GetComponent<Tweener>();
         pacStudentAnimator = GetComponent<Animator>();
         trailParticles = GameObject.Find("TrailParticles").GetComponent<ParticleSystem>();
@@ -146,7 +145,6 @@ public class PacStudentController : MonoBehaviour
     }
     
     void Teleport(Vector3 direction) {
-        Debug.Log($"Teleporting pacstudent from {transform.position} coming in direction: {direction}");
         //if direction is left, teleport to the right edge of the grid, else teleport to the left edge of the grid
         if(direction == directions[1]) {
             float newX = Mathf.Abs(transform.position.x + movementManager.gameManager.levelGenerator.width - 1);
@@ -156,7 +154,6 @@ public class PacStudentController : MonoBehaviour
             float newX = Mathf.Abs(transform.position.x - movementManager.gameManager.levelGenerator.width + 1);
             transform.position = new Vector3(-newX, transform.position.y, 0.0f);
         }
-        Debug.Log($"Teleported pacstudent to {transform.position}");
         
     }
     
@@ -166,18 +163,18 @@ public class PacStudentController : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D other) {
         string tag = other.gameObject.tag;
-        if(tag == "Pellet") {
+        if(tag == "pellet") {
             movementManager.gameManager.audioManager.PlayEatSound();
             Eat(other.gameObject);
             AddScore(10);
-        } else if(tag == "Cherry") {
+        } else if(tag == "cherry") {
             movementManager.cherryController.RemoveCherry(other.transform);
             Eat(other.gameObject);
             AddScore(100);
-        } else if(tag == "PowerPellet") {
+        } else if(tag == "pellet-power") {
             Eat(other.gameObject);
             movementManager.ghostController.Scared();
-        } else if(tag == "Ghost") {
+        } else if(tag == "ghost") {
             if(movementManager.ghostController.scared) {
                 movementManager.ghostController.Die(other.gameObject);
                 AddScore(300);

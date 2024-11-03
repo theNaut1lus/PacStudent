@@ -14,9 +14,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject score;
     
-    //Health bar, 4 different health states based on my sprites
+    //Health bar, 4 different health states based on my sprites, and 1 for when the player loses all lives
     [SerializeField] 
-    private Sprite[] healthSprites = new Sprite[4];
+    private Sprite[] healthSprites = new Sprite[5];
 
     [SerializeField] 
     private GameObject health;
@@ -116,16 +116,20 @@ public class UIManager : MonoBehaviour
         ghostTimer.SetActive(false);
     }
 
-    //change sprite of health gameobjet (TMP image) based on the number of lives
+    //change sprite of health gameobject (TMP image) based on the number of lives
     public void LoseLife()
     {
-        int lives = gameManager.lives;
-        if(lives >= 0 && lives < 4) {
-            health.GetComponent<Image>().sprite = healthSprites[lives];}
+        Debug.Log("LoseLife");
+        int lives = --gameManager.lives;
+        if(lives >= 0 && lives <= 4) 
+        {
+            health.GetComponent<Image>().sprite = healthSprites[lives];
+            Debug.Log($"health: {lives}, current sprite: {healthSprites[lives]}");
+        }
     }
 
     public void ResetLives() {
-        health.GetComponent<Image>().sprite = healthSprites[3];
+        health.GetComponent<Image>().sprite = healthSprites[4];
     }
 
     public float GetTimePlayed() {

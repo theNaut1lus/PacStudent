@@ -66,26 +66,6 @@ public class LevelGenerator : MonoBehaviour
         height = completeLvlMap.GetLength(0);
         DeleteCurrentLevel();
         GenerateLevel();
-        //Debug.Log($"Level map: {levelMap}");
-        //Debug.Log($"Complete level map: {completeLvlMap}");
-        
-        //print out the level map in the console
-        for (int i = 0; i < levelMap.GetLength(0); i++) {
-            string row = "";
-            for (int j = 0; j < levelMap.GetLength(1); j++) {
-                row += levelMap[i, j] + " ";
-            }
-            Debug.Log(row);
-        }
-        
-        //print out the complete level map in the console
-        for (int i = 0; i < completeLvlMap.GetLength(0); i++) {
-            string row = "";
-            for (int j = 0; j < completeLvlMap.GetLength(1); j++) {
-                row += completeLvlMap[i, j] + " ";
-            }
-            Debug.Log(row);
-        }
     }
 
     void CompletelvlMap()
@@ -107,7 +87,6 @@ public class LevelGenerator : MonoBehaviour
     //Function to generate the level using the levelMap array
     public void GenerateLevel()
     {
-        Debug.Log("generating level");
         //loop through each quadrant and generate the level using the levelMap array
         for (int i = 0; i < quadrants.Length; i++) {
             BoundsInt bounds = quadrants[i].cellBounds;
@@ -151,7 +130,6 @@ public class LevelGenerator : MonoBehaviour
     //instead of just sprite, we need to now instantiate the gameobject and get the sprite from it.
     Tile CreateTile(int prefabIndex)
     {
-        //Debug.Log($"Creating tile for prefabIndex: {prefabIndex} and prefab: {prefabs[prefabIndex]}");
         Tile tile = ScriptableObject.CreateInstance<Tile>();
         
         //set the tile (with corresponding gameobject and sprite) based on the prefabIndex
@@ -438,7 +416,6 @@ public class LevelGenerator : MonoBehaviour
     //Best to have a separate function to delete a level, so that it can be re-used if needed.
     void DeleteCurrentLevel()
     {
-        Debug.Log("deleting current level");
         //loop through each quadrant and destroy all child gameobjects.
         for (int i = 0; i < quadrants.Length; i++)
         {
