@@ -27,9 +27,10 @@ public class PacStudentController : MonoBehaviour
     private string[] pacStudentAnimationStates = new string[]
     {
         "Up",
-        "PacStudentLeft",
+        "Right",
         "Down",
-        "Right"
+        "PacStudentLeft"
+        
     };
     //list of each vector3 direction in which pacStudent can be moving in
     private Vector3[] directions = new Vector3[]
@@ -42,10 +43,10 @@ public class PacStudentController : MonoBehaviour
     //list of each euler angle rotation of pacStudent, corresponding to each direction
     private Quaternion[] particleRotations = new Quaternion[]
     {
-        Quaternion.Euler(0.0f, 0.0f, 0.0f),
-        Quaternion.Euler(0.0f, 0.0f, 90.0f),
-        Quaternion.Euler(0.0f, 0.0f, 180.0f),
-        Quaternion.Euler(0.0f, 0.0f, 270.0f)
+        Quaternion.Euler(0.0f, 0.0f, 260.0f),
+        Quaternion.Euler(0.0f, 0.0f, 350.0f),
+        Quaternion.Euler(0.0f, 0.0f, 80.0f),
+        Quaternion.Euler(0.0f, 0.0f, 170.0f)
     };
     
     //initialise the Controller
@@ -57,6 +58,7 @@ public class PacStudentController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log($"pacstudent position {transform.position}");
         tweener = GetComponent<Tweener>();
         pacStudentAnimator = GetComponent<Animator>();
         trailParticles = GameObject.Find("TrailParticles").GetComponent<ParticleSystem>();
@@ -99,7 +101,12 @@ public class PacStudentController : MonoBehaviour
     void Move() {
         if(!tweener.TweenExists(transform) && lastInput != -1) {            
             Vector3 direction = directions[lastInput];
-            int nextTile = movementManager.GetNextTile(transform.position, direction);
+            //rotate the pacStudent to face the direction it is moving in
+            //transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f * lastInput);
+            //delta of (16.5, -7) to be added to the current position of pacStudent to get its current tile position on the grid
+            Vector3 currentTile = new Vector3(transform.position.x + 16.5f, transform.position.y - 7.0f, 0.0f);
+            //Debug.Log($"pacstudent position: {transform.position}, current tile: {currentTile} and direction: {direction}");
+            int nextTile = movementManager.GetNextTile(currentTile, direction);
 
             if(nextTile == -1)
                 Teleport(direction);
@@ -112,10 +119,10 @@ public class PacStudentController : MonoBehaviour
                     trailParticles.transform.rotation = particleRotations[currentInput];
                     trailParticles.Play();
                     bumped = false;
-                    //movementManager.gameManager.audioManager.PlayMoveSound();
+                    movementManager.gameManager.audioManager.PlayMoveSound();
                 } else {
                     direction = directions[currentInput];
-                    nextTile = movementManager.GetNextTile(transform.position, direction);
+                    nextTile = movementManager.GetNextTile(currentTile, direction);
                     if(movementManager.IsWalkable(nextTile)) {
                         tweener.AddTween(transform, transform.position, transform.position + direction, 1/speed);
                         pacStudentAnimator.enabled = true;
@@ -139,8 +146,18 @@ public class PacStudentController : MonoBehaviour
     }
     
     void Teleport(Vector3 direction) {
-        float newX = Mathf.Abs(transform.position.x - movementManager.gameManager.levelGenerator.width + 1);
-        transform.position = new Vector3(newX, transform.position.y, 0.0f);
+        Debug.Log($"Teleporting pacstudent from {transform.position} coming in direction: {direction}");
+        //if direction is left, teleport to the right edge of the grid, else teleport to the left edge of the grid
+        if(direction == directions[1]) {
+            float newX = Mathf.Abs(transform.position.x + movementManager.gameManager.levelGenerator.width - 1);
+            transform.position = new Vector3(newX, transform.position.y, 0.0f);
+        }
+        else {
+            float newX = Mathf.Abs(transform.position.x - movementManager.gameManager.levelGenerator.width + 1);
+            transform.position = new Vector3(-newX, transform.position.y, 0.0f);
+        }
+        Debug.Log($"Teleported pacstudent to {transform.position}");
+        
     }
     
     void Eat(GameObject pellet) {

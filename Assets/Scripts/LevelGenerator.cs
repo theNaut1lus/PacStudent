@@ -31,7 +31,7 @@ public class LevelGenerator : MonoBehaviour
     };
     
     //level map but with all 4 quadrants
-    private int[,] completeLvlMap;
+    public int[,] completeLvlMap;
     
     //width and height of the complete level map
     public int width;
@@ -42,8 +42,13 @@ public class LevelGenerator : MonoBehaviour
     private Tilemap[] quadrants = new Tilemap[4];
     
     //Store all sprites for the level design needed in a list of Sprites
-    [SerializeField]
-    private List<GameObject> prefabs = new List<GameObject>();
+    //[SerializeField]
+    //private List<GameObject> prefabs = new List<GameObject>();
+    
+    //instead of sprites, we need to store the prefabs for the tiles, this will be used to instantiate the gameobject and get the sprite from it.
+    public List<Tile> prefabTiles = new List<Tile>();
+    
+    
     private bool tOpen = true;
     
     //initialise the LevelGenerator
@@ -61,7 +66,26 @@ public class LevelGenerator : MonoBehaviour
         height = completeLvlMap.GetLength(0);
         DeleteCurrentLevel();
         GenerateLevel();
+        //Debug.Log($"Level map: {levelMap}");
+        //Debug.Log($"Complete level map: {completeLvlMap}");
         
+        //print out the level map in the console
+        for (int i = 0; i < levelMap.GetLength(0); i++) {
+            string row = "";
+            for (int j = 0; j < levelMap.GetLength(1); j++) {
+                row += levelMap[i, j] + " ";
+            }
+            Debug.Log(row);
+        }
+        
+        //print out the complete level map in the console
+        for (int i = 0; i < completeLvlMap.GetLength(0); i++) {
+            string row = "";
+            for (int j = 0; j < completeLvlMap.GetLength(1); j++) {
+                row += completeLvlMap[i, j] + " ";
+            }
+            Debug.Log(row);
+        }
     }
 
     void CompletelvlMap()
@@ -103,8 +127,10 @@ public class LevelGenerator : MonoBehaviour
                         if (i ==2 || i == 3) {
                             position = new Vector3Int((-15)+x, 1-y-1, 0);
                         }
+                        //Tile tile = ScriptableObject.CreateInstance<Tile>();
+                        //tile.sprite = prefabs[levelMap[y, x] - 1].GetComponent<SpriteRenderer>().sprite;
                         //get tile based on the value in the levelMap array from the CreateTile function
-                        Tile tile = CreateTile(levelMap[y, x] - 1);
+                        Tile tile = CreateTile(levelMap[y, x]-1);
                         
                         //get the rotation of the tile based on the neighbours
                         Vector3 tileRotation = TileRotation(levelMap[y, x], x, y);
@@ -125,31 +151,12 @@ public class LevelGenerator : MonoBehaviour
     //instead of just sprite, we need to now instantiate the gameobject and get the sprite from it.
     Tile CreateTile(int prefabIndex)
     {
+        //Debug.Log($"Creating tile for prefabIndex: {prefabIndex} and prefab: {prefabs[prefabIndex]}");
         Tile tile = ScriptableObject.CreateInstance<Tile>();
         
-        //based on the prefabIndex, we need to initialize more components of the tile, like the collider, etc.
+        //set the tile (with corresponding gameobject and sprite) based on the prefabIndex
+        tile = prefabTiles[prefabIndex];
         
-        //set the sprite of the tile based on the prefabIndex, same as before.
-        if (prefabIndex > 0)
-        {
-            tile.sprite = prefabs[prefabIndex].GetComponent<SpriteRenderer>().sprite;
-        }
-        
-        if(prefabIndex == 5)
-        {
-            CircleCollider2D cl = tile.AddComponent<CircleCollider2D>();
-            cl.isTrigger = true;
-            cl.radius = 0.2f;
-            //tile.tag = "Pellet";
-        }
-
-        if (prefabIndex == 6)
-        {
-            CircleCollider2D cl =  tile.AddComponent<CircleCollider2D>();
-            cl.isTrigger = true;
-            cl.radius = 0.2f;
-            //tile.tag = "PowerPellet";
-        }
         return tile;
     }
     
@@ -407,22 +414,22 @@ public class LevelGenerator : MonoBehaviour
         //check if the current position is not at the top edge of the map
         if (y > 0) {
             //if there is a tile at the top, set the top neighbour to the value of the tile
-            neighbours[1] = levelMap[y - 1, x];
+            neighbours[1] = completeLvlMap[y - 1, x];
         }
         //check if the current position is not at the bottom edge of the map
-        if (y < levelMap.GetLength(0) - 1) {
+        if (y < completeLvlMap.GetLength(0) - 1) {
             //if there is a tile at the bottom, set the bottom neighbour to the value of the tile
-            neighbours[3] = levelMap[y + 1, x];
+            neighbours[3] = completeLvlMap[y + 1, x];
         }
         //check if the current position is not at the left edge of the map
         if (x > 0) {
             //if there is a tile at the left, set the left neighbour to the value of the tile
-            neighbours[0] = levelMap[y, x - 1];
+            neighbours[0] = completeLvlMap[y, x - 1];
         }
         //check if the current position is not at the right edge of the map
-        if (x < levelMap.GetLength(1) - 1) {
+        if (x < completeLvlMap.GetLength(1) - 1) {
             //if there is a tile at the right, set the right neighbour to the value of the tile
-            neighbours[2] = levelMap[y, x + 1];
+            neighbours[2] = completeLvlMap[y, x + 1];
         }
         //return the neighbours array
         return neighbours;
@@ -433,7 +440,8 @@ public class LevelGenerator : MonoBehaviour
     {
         Debug.Log("deleting current level");
         //loop through each quadrant and destroy all child gameobjects.
-        for (int i = 0; i < quadrants.Length; i++) {
+        for (int i = 0; i < quadrants.Length; i++)
+        {
             //Debug.Log($"Destructing quadrant {quadrants[i].name}");
             //helps in shrinking the bounds of the tilemap to the minimum required size.
             quadrants[i].CompressBounds();

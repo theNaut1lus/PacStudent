@@ -7,8 +7,10 @@ public class GhostController : MonoBehaviour
     //movement manager
     private MovementManager movementManager;
     
-    //ghost prefabs dictionary for each ghost with their respective colors
-    public Dictionary<string, GameObject> ghostPrefabs = new Dictionary<string, GameObject>();
+    //ghost prefabs string array for each ghost with their respective colors
+    [SerializeField]
+    private List<GameObject> ghostPrefabs;
+    
     
     //bool for if ghosts are scared/edible
     public bool scared = false;
@@ -42,9 +44,11 @@ public class GhostController : MonoBehaviour
         scared = false;
         recovering = false;
         dead = false;
-        foreach(KeyValuePair<string, GameObject> kvp in ghostPrefabs) {
-            Animator animator = kvp.Value.GetComponent<Animator>();
-            animator.Play($"Ghost-{kvp.Key}");
+        foreach(GameObject ghost in ghostPrefabs) {
+            Animator animator = ghost.GetComponent<Animator>();
+            //get the color of the ghost from the ghost's name
+            string color = ghost.name.Split('-')[1];
+            animator.Play("Ghost-" + color);
         }
         movementManager.gameManager.audioManager.PlayNormalMusic();
         movementManager.gameManager.uiManager.DisableGhostTimer();
@@ -52,8 +56,8 @@ public class GhostController : MonoBehaviour
     public void Scared() {
         scared = true;
         scaredTimer = 10.0f;
-        foreach(KeyValuePair<string, GameObject> kvp in ghostPrefabs) {
-            Animator animator = kvp.Value.GetComponent<Animator>();
+        foreach(GameObject ghost in ghostPrefabs) {
+            Animator animator = ghost.GetComponent<Animator>();
             animator.Play("Ghost-Scared");
         }
         movementManager.gameManager.audioManager.PlayScaredMusic();
@@ -61,8 +65,8 @@ public class GhostController : MonoBehaviour
 
     public void Recover() {
         recovering = true;
-        foreach(KeyValuePair<string, GameObject> kvp in ghostPrefabs) {
-            Animator animator = kvp.Value.GetComponent<Animator>();
+        foreach(GameObject ghost in ghostPrefabs) {
+            Animator animator = ghost.GetComponent<Animator>();
             animator.Play("Ghost-Recovering");
         }
     }

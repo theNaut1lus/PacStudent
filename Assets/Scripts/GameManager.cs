@@ -14,11 +14,11 @@ public class GameManager : MonoBehaviour
     
     //variables to keep track of the current lives and score
     private int score = 0;
-    public int lives = 3;
+    public int lives = 4;
     
     //variables for whether game is paused or in startgame stage
-    public bool isPaused = false;
-    public bool isGameStarted = true;
+    public bool isGameStarted = false;
+    public bool isPaused = true;
 
     private void Awake()
     {
@@ -32,7 +32,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Log("Start Game");
+        StartCoroutine(StartGame());
     }
 
     // Update is called once per frame
@@ -42,11 +43,12 @@ public class GameManager : MonoBehaviour
     }
     
     IEnumerator StartGame() {
+        Debug.Log("Start Game Coroutine");
         lives = 4;
         uiManager.Reset();
         movementManager.pacStudentController.MoveToStart();
         audioManager.PlayStartMusic();
-        yield return null;
+        yield return StartCoroutine(uiManager.CountDown(3));
         audioManager.PlayNormalMusic();
         uiManager.StartTimer();
         Play();
@@ -58,6 +60,7 @@ public class GameManager : MonoBehaviour
     }
     
     public void Play() {
+        Debug.Log("Play Game");
         isGameStarted = true;
         isPaused = false;
         movementManager.cherryController.StartCherrySpawn();

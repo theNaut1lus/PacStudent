@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - PacStudent
+  - pellet-power
+  - pellet
+  - cherry
   layers:
   - Default
   - TransparentFX

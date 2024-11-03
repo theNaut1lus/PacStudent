@@ -48,21 +48,36 @@ public class CherryController : MonoBehaviour
     }
     
     IEnumerator SpawnCherry() {
-        Vector3 randomLocation = new Vector3(Random.Range(0.0f,27.0f), 1.0f, 0.0f);
+        Vector3 randomLocation = new Vector3(Random.Range(-16.5f,10.5f), 7.0f, 0.0f);
+        Debug.Log($"Cherry spawned at {randomLocation}");
         GameObject newCherry = Instantiate(cherryPrefab, randomLocation, Quaternion.identity);
-        newCherry.tag = "Cherry";
+        newCherry.tag = "cherry";
         CircleCollider2D cl = newCherry.AddComponent<CircleCollider2D>();
         cl.isTrigger = true;
-        MoveCherry(newCherry);
+        MoveCherryIn(newCherry);
+        yield return new WaitUntil(() => newCherry == null || !tweener.TweenExists(newCherry.transform));
+        MoveCherryOut(newCherry, randomLocation);
         yield return new WaitUntil(() => newCherry == null || !tweener.TweenExists(newCherry.transform));
         Destroy(newCherry);
     }
     
-    void MoveCherry(GameObject cherry) {
+    //move the cherry in from the top to hit center of screen
+    void MoveCherryIn(GameObject cherry) {
         tweener.AddTween(cherry.transform, 
             cherry.transform.position, 
-            new Vector3(27.0f - cherry.transform.position.x, -30.0f, 0.0f),
-            10.0f);
+            new Vector3(-3.0f, -7.0f, 0.0f),
+            5.0f);
+    }    
+    
+    //move the cherry out to the bottom from the center of the screen
+    void MoveCherryOut(GameObject cherry, Vector3 spawnLocation) {
+        //calculate the direction to move the cherry using the spawn location and the origin
+        //add the direction to the cherry's current position
+        
+        tweener.AddTween(cherry.transform, 
+            cherry.transform.position, 
+            new Vector3(Random.Range(-16.5f,10.5f), -22.0f, 0.0f),
+            5.0f);
     }
     
     public bool RemoveCherry(Transform cherry) {

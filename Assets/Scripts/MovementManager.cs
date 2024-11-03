@@ -22,10 +22,8 @@ public class MovementManager : MonoBehaviour
     {
         this.gameManager = gameManager;
         pacStudentController.Init(this);
-        
-        //TODO: Implement the CherryController and GhostController
-        //cherryController.Init(this);
-        //ghostController.Init(this);
+        cherryController.Init(this);
+        ghostController.Init(this);
     }
 
     // Start is called before the first frame update
