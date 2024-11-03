@@ -38,7 +38,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(levelGenerator.pelletCounter <= 0)
+            Win();
     }
     
     IEnumerator StartGame() {
@@ -46,6 +47,8 @@ public class GameManager : MonoBehaviour
         uiManager.Reset();
         movementManager.pacStudentController.MoveToStart();
         audioManager.PlayStartMusic();
+        // Wait two more seconds so start music has time to finish
+        yield return new WaitForSeconds(2);
         yield return StartCoroutine(uiManager.CountDown(3));
         audioManager.PlayNormalMusic();
         uiManager.StartTimer();
@@ -68,11 +71,24 @@ public class GameManager : MonoBehaviour
         movementManager.cherryController.StopCherrySpawn();
     }
     
-    public void GameOver() {
+    public void Stop() {
         Pause();
+        isGameStarted = false;
+    }
+    
+    public void GameOver() {
+        Stop();
         movementManager.pacStudentController.pacStudentAnimator.enabled = false;
         SaveHighScore();
         uiManager.ShowGameOver();
+        Invoke("ShowStartScene", 3);
+    }
+    
+    public void Win() {
+        Stop();
+        movementManager.pacStudentController.pacStudentAnimator.enabled = false;
+        SaveHighScore();
+        uiManager.ShowWin();
         Invoke("ShowStartScene", 3);
     }
     
@@ -94,9 +110,5 @@ public class GameManager : MonoBehaviour
 
     public void ShowStartScene() {
         SceneManager.LoadScene(0);
-    }
-
-    public void ShowLevel1() {
-        SceneManager.LoadScene(1);
     }
 }

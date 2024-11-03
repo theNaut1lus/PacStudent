@@ -37,6 +37,9 @@ public class LevelGenerator : MonoBehaviour
     public int width;
     public int height;
     
+    //count number of pellets left in the level
+    public int pelletCounter;
+    
     //4 quadrants of the level, each built using a tilemap, so storing their respective gameobjects
     [SerializeField]
     private Tilemap[] quadrants = new Tilemap[4];
@@ -134,6 +137,11 @@ public class LevelGenerator : MonoBehaviour
         
         //set the tile (with corresponding gameobject and sprite) based on the prefabIndex
         tile = prefabTiles[prefabIndex];
+        
+        //increment the pelletCounter if the tile is a pellet
+        if (prefabIndex == 5) {
+            pelletCounter++;
+        }
         
         return tile;
     }
@@ -335,7 +343,7 @@ public class LevelGenerator : MonoBehaviour
                     } else {
                         if (tOpen) {
                             tOpen = false;
-                            return new Vector3(0.0f, 180.0f, 0.0f);
+                            return new Vector3(0.0f, 0.0f, 0.0f);
                             //return new Vector3(0.0f, 0.0f, 0.0f);
                         } else {
                             tOpen = true;

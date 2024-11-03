@@ -37,6 +37,14 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject gameOver;
     
+    //game won screen
+    [SerializeField]
+    GameObject gameWon;
+    
+    //exit button
+    [SerializeField]
+    public Button exitButton; 
+    
     float startTime = -1.0f;
     
     
@@ -49,7 +57,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        exitButton.onClick.AddListener(gameManager.ShowStartScene);
     }
 
     // Update is called once per frame
@@ -82,6 +90,7 @@ public class UIManager : MonoBehaviour
         DisableGhostTimer();
         ResetLives();
         gameOver.SetActive(false);
+        gameWon.SetActive(false);
     }
 
     public void StartTimer() {
@@ -119,7 +128,6 @@ public class UIManager : MonoBehaviour
     //change sprite of health gameobject (TMP image) based on the number of lives
     public void LoseLife()
     {
-        Debug.Log("LoseLife");
         int lives = --gameManager.lives;
         if(lives >= 0 && lives <= 4) 
         {
@@ -140,5 +148,9 @@ public class UIManager : MonoBehaviour
         gameOver.SetActive(true);
         startTime = -1.0f;
     }
-            
+    
+    public void ShowWin() {
+        gameWon.SetActive(true);
+        startTime = -1.0f;
+    }
 }

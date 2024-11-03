@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StartSceneManager : MonoBehaviour
 {
@@ -10,15 +11,24 @@ public class StartSceneManager : MonoBehaviour
     GameObject highscore;
     [SerializeField]
     GameObject highscoreTime;
+    [SerializeField]
+    Button level1Button;
     
     void OnEnable()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        UpdateHighScore();
+        if(scene.buildIndex == 0)
+            UpdateHighScore();
     }
     
     public void UpdateHighScore() {
@@ -43,7 +53,11 @@ public class StartSceneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        level1Button.onClick.AddListener(LoadLevel1);
+    }
+    
+    public void LoadLevel1() {
+        SceneManager.LoadScene(1);
     }
 
     // Update is called once per frame

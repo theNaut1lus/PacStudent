@@ -69,34 +69,57 @@ public class AudioManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(gameManager.isGameStarted)
+            PlayMusic();
+    }
+    
+    //single function maintain music state between normal, start or scared, game manager should call this instead of directly changing the music
+    public void PlayMusic()
+    {
+        if(gameManager.movementManager.ghostController.GhostIsDead()) {
+            PlayDeadMusic();
+        } else if(gameManager.movementManager.ghostController.globalState == GhostController.GhostState.Scared || gameManager.movementManager.ghostController.globalState == GhostController.GhostState.Recovering) {
+            PlayScaredMusic();
+        } else {
+            PlayNormalMusic();
+        }
     }
 
     //switch to start music
     public void PlayStartMusic() {
-        currentMusic.Stop();
-        startMusic.Play();
-        currentMusic = startMusic;
+        if(!startMusic.isPlaying) {
+            currentMusic.Stop();
+            startMusic.Play();
+            currentMusic = startMusic;
+        }
     }
 
     //switch to scared music
     public void PlayScaredMusic() {
-        currentMusic.Stop();
-        scaredMusic.Play();
-        currentMusic = scaredMusic;
+        if(!scaredMusic.isPlaying) {
+            currentMusic.Stop();
+            scaredMusic.Play();
+            currentMusic = scaredMusic;
+        }
     }
 
     //switch to game music
     public void PlayNormalMusic() {
-        currentMusic.Stop();
-        gameMusic.Play();
-        currentMusic = gameMusic;
+        if(!gameMusic.isPlaying) {
+            currentMusic.Stop();
+            gameMusic.Play();
+            currentMusic = gameMusic;
+        }
     }
     
     //switch to dead music
-    public void PlayDeadMusic() {
-        currentMusic.Stop();
-        deadMusic.Play();
-        currentMusic = deadMusic;
+    public void PlayDeadMusic()
+    {
+        if (!deadMusic.isPlaying)
+        {
+            currentMusic.Stop();
+            deadMusic.Play();
+            currentMusic = deadMusic;
+        }
     }
 }
